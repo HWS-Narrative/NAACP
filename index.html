@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alabama NAACP Communications Volunteer Interest Form</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Source+Sans+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* CSS Custom Properties (Variables) - Industry Best Practice */
+        :root {
+            --color-primary: #1a1a2e;
+            --color-secondary: #c9a227;
+            --color-accent: #d4af37;
+            --color-background: #f8f6f0;
+            --color-surface: #ffffff;
+            --color-text: #2d2d2d;
+            --color-text-muted: #6b6b6b;
+            --color-border: #e0ddd5;
+            --color-error: #c53030;
+            --color-success: #2f855a;
+            
+            --font-heading: 'Libre Baskerville', Georgia, serif;
+            --font-body: 'Source Sans Pro', system-ui, sans-serif;
+            
+            --spacing-xs: 0.25rem;
+            --spacing-sm: 0.5rem;
+            --spacing-md: 1rem;
+            --spacing-lg: 1.5rem;
+            --spacing-xl: 2rem;
+            --spacing-2xl: 3rem;
+            
+            --radius-sm: 4px;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+            --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
+            
+            --transition-fast: 150ms ease;
+            --transition-normal: 250ms ease;
+        }
+
+        /* Reset & Base Styles */
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            font-size: 16px;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            font-size: 1rem;
+            line-height: 1.6;
+            color: var(--color-text);
+            background-color: var(--color-background);
+            min-height: 100vh;
+        }
+
+        /* Main Container */
+        .page-wrapper {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: var(--spacing-xl) var(--spacing-md);
+        }
+
+        /* Header Section */
+        .form-header {
+            text-align: center;
+            margin-bottom: var(--spacing-2xl);
+            padding-bottom: var(--spacing-xl);
+            border-bottom: 3px solid var(--color-secondary);
+        }
+
+        .org-badge {
+            display: inline-block;
+            background: var(--color-primary);
+            color: var(--color-secondary);
+            font-family: var(--font-body);
+            font-weight: 700;
+            font-size: 0.75rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            padding: var(--spacing-xs) var(--spacing-md);
+            border-radius: var(--radius-sm);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .form-title {
+            font-family: var(--font-heading);
+            font-size: clamp(1.75rem, 4vw, 2.25rem);
+            font-weight: 700;
+            color: var(--color-primary);
+            margin-bottom: var(--spacing-md);
+            line-height: 1.3;
+        }
+
+        .form-intro {
+            font-size: 1.125rem;
+            color: var(--color-text-muted);
+            max-width: 540px;
+            margin: 0 auto;
+        }
+
+        /* Form Card */
+        .form-card {
+            background: var(--color-surface);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+            overflow: hidden;
+        }
+
+        /* Form Sections */
+        .form-section {
+            padding: var(--spacing-xl);
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .form-section:last-of-type {
+            border-bottom: none;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .section-number {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            background: var(--color-secondary);
+            color: var(--color-primary);
+            font-family: var(--font-heading);
+            font-weight: 700;
+            font-size: 0.875rem;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .section-title {
+            font-family: var(--font-heading);
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--color-primary);
+        }
+
+        /* Form Groups */
+        .form-group {
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .form-group:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Labels */
+        .form-label {
+            display: block;
+            font-weight: 600;
+            color: var(--color-text);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .question-number {
+            display: inline-block;
+            color: var(--color-text-muted);
+            font-size: 0.875rem;
+            margin-right: var(--spacing-xs);
+        }
+
+        .required-indicator {
+            color: var(--color-error);
+            margin-left: var(--spacing-xs);
+        }
+
+        /* Text Inputs */
+        .form-input {
+            width: 100%;
+            padding: var(--spacing-md);
+            font-family: var(--font-body);
+            font-size: 1rem;
+            color: var(--color-text);
+            background: var(--color-surface);
+            border: 2px solid var(--color-border);
+            border-radius: var(--radius-md);
+            transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+        }
+
+        .form-input:hover {
+            border-color: #c0bdb5;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--color-secondary);
+            box-shadow: 0 0 0 3px rgba(201, 162, 39, 0.2);
+        }
+
+        .form-input::placeholder {
+            color: #a0a0a0;
+        }
+
+        /* Textarea */
+        .form-textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        /* Checkbox Group */
+        .checkbox-group {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-sm);
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: flex-start;
+            gap: var(--spacing-sm);
+            padding: var(--spacing-sm) var(--spacing-md);
+            background: var(--color-background);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: background-color var(--transition-fast);
+        }
+
+        .checkbox-item:hover {
+            background: #f0ede5;
+        }
+
+        .checkbox-item input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            margin-top: 2px;
+            accent-color: var(--color-secondary);
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        .checkbox-label {
+            font-size: 1rem;
+            color: var(--color-text);
+            cursor: pointer;
+            line-height: 1.4;
+        }
+
+        /* Radio Group */
+        .radio-group {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-sm);
+        }
+
+        .radio-item {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            padding: var(--spacing-sm) var(--spacing-md);
+            background: var(--color-background);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: background-color var(--transition-fast);
+        }
+
+        .radio-item:hover {
+            background: #f0ede5;
+        }
+
+        .radio-item input[type="radio"] {
+            width: 20px;
+            height: 20px;
+            accent-color: var(--color-secondary);
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        .radio-label {
+            font-size: 1rem;
+            color: var(--color-text);
+            cursor: pointer;
+        }
+
+        /* "Other" Input */
+        .other-input-wrapper {
+            margin-top: var(--spacing-sm);
+            padding-left: 36px;
+        }
+
+        .other-input {
+            width: 100%;
+            max-width: 300px;
+        }
+
+        /* Submit Section */
+        .submit-section {
+            padding: var(--spacing-xl);
+            background: linear-gradient(to bottom, #faf9f5, var(--color-surface));
+        }
+
+        .submit-button {
+            display: block;
+            width: 100%;
+            padding: var(--spacing-md) var(--spacing-xl);
+            font-family: var(--font-body);
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: var(--color-primary);
+            background: var(--color-secondary);
+            border: none;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: background-color var(--transition-fast), transform var(--transition-fast), box-shadow var(--transition-fast);
+        }
+
+        .submit-button:hover {
+            background: var(--color-accent);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .submit-button:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(201, 162, 39, 0.4);
+        }
+
+        .submit-button:active {
+            transform: translateY(0);
+        }
+
+        .privacy-note {
+            margin-top: var(--spacing-md);
+            font-size: 0.875rem;
+            color: var(--color-text-muted);
+            text-align: center;
+        }
+
+        /* Footer */
+        .form-footer {
+            text-align: center;
+            padding: var(--spacing-xl) var(--spacing-md);
+            color: var(--color-text-muted);
+            font-size: 0.875rem;
+        }
+
+        .form-footer a {
+            color: var(--color-primary);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .form-footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Accessibility: Focus Visible */
+        .checkbox-item:focus-within,
+        .radio-item:focus-within {
+            outline: 2px solid var(--color-secondary);
+            outline-offset: 2px;
+        }
+
+        /* Screen Reader Only Class */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 480px) {
+            .page-wrapper {
+                padding: var(--spacing-md);
+            }
+
+            .form-section {
+                padding: var(--spacing-lg);
+            }
+
+            .submit-section {
+                padding: var(--spacing-lg);
+            }
+
+            .checkbox-item,
+            .radio-item {
+                padding: var(--spacing-sm);
+            }
+        }
+    </style>
+</head>
+<body>
+    <main class="page-wrapper">
+        <!-- Header -->
+        <header class="form-header">
+            <span class="org-badge">Alabama NAACP</span>
+            <h1 class="form-title">Communications Volunteer Interest Form</h1>
+            <p class="form-intro">
+                Hi Alabama NAACP Family! Interested in helping amplify the work of the Alabama NAACP? 
+                Complete this short form and our communications team will be in touch.
+            </p>
+        </header>
+
+        <!-- Form -->
+        <form class="form-card" action="#" method="POST" novalidate>
+            
+            <!-- Section 1: Contact Info -->
+            <fieldset class="form-section">
+                <legend class="sr-only">Section 1: Contact Information</legend>
+                <div class="section-header">
+                    <span class="section-number">1</span>
+                    <h2 class="section-title">Contact Info</h2>
+                </div>
+
+                <div class="form-group">
+                    <label for="full-name" class="form-label">
+                        <span class="question-number">1.</span>
+                        Full Name
+                        <span class="required-indicator" aria-hidden="true">*</span>
+                    </label>
+                    <input 
+                        type="text" 
+                        id="full-name" 
+                        name="full_name" 
+                        class="form-input" 
+                        placeholder="Enter your full name"
+                        required
+                        autocomplete="name"
+                        aria-required="true"
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="email" class="form-label">
+                        <span class="question-number">2.</span>
+                        Email Address
+                        <span class="required-indicator" aria-hidden="true">*</span>
+                    </label>
+                    <input 
+                        type="email" 
+                        id="email" 
+                        name="email" 
+                        class="form-input" 
+                        placeholder="your.email@example.com"
+                        required
+                        autocomplete="email"
+                        aria-required="true"
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="phone" class="form-label">
+                        <span class="question-number">3.</span>
+                        Phone Number
+                    </label>
+                    <input 
+                        type="tel" 
+                        id="phone" 
+                        name="phone" 
+                        class="form-input" 
+                        placeholder="(555) 123-4567"
+                        autocomplete="tel"
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="city-county" class="form-label">
+                        <span class="question-number">4.</span>
+                        City/County in Alabama
+                        <span class="required-indicator" aria-hidden="true">*</span>
+                    </label>
+                    <input 
+                        type="text" 
+                        id="city-county" 
+                        name="city_county" 
+                        class="form-input" 
+                        placeholder="e.g., Birmingham, Jefferson County"
+                        required
+                        aria-required="true"
+                    >
+                </div>
+            </fieldset>
+
+            <!-- Section 2: Volunteer Interests -->
+            <fieldset class="form-section">
+                <legend class="sr-only">Section 2: Volunteer Interests</legend>
+                <div class="section-header">
+                    <span class="section-number">2</span>
+                    <h2 class="section-title">Volunteer Interests</h2>
+                </div>
+
+                <div class="form-group">
+                    <p class="form-label" id="interests-label">
+                        <span class="question-number">5.</span>
+                        What communications support are you interested in?
+                        <span style="display: block; font-weight: 400; font-size: 0.875rem; color: var(--color-text-muted); margin-top: 4px;">
+                            Select all that apply
+                        </span>
+                    </p>
+                    <div class="checkbox-group" role="group" aria-labelledby="interests-label">
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="interests" value="social_media">
+                            <span class="checkbox-label">Social media</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="interests" value="graphic_design">
+                            <span class="checkbox-label">Graphic design</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="interests" value="writing">
+                            <span class="checkbox-label">Writing / content creation</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="interests" value="photo_video">
+                            <span class="checkbox-label">Photography / video</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="interests" value="email_text">
+                            <span class="checkbox-label">Email or text campaigns</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="interests" value="event_promotion">
+                            <span class="checkbox-label">Event promotion</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="interests" value="media_press">
+                            <span class="checkbox-label">Media / press support</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="interests" value="general_support">
+                            <span class="checkbox-label">General communications support</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="interests" value="other" id="interest-other-checkbox">
+                            <span class="checkbox-label">Other</span>
+                        </label>
+                    </div>
+                    <div class="other-input-wrapper">
+                        <label for="interest-other-text" class="sr-only">Please specify other interest</label>
+                        <input 
+                            type="text" 
+                            id="interest-other-text" 
+                            name="interest_other_text" 
+                            class="form-input other-input" 
+                            placeholder="Please specify"
+                            aria-describedby="interest-other-checkbox"
+                        >
+                    </div>
+                </div>
+            </fieldset>
+
+            <!-- Section 3: Experience & Availability -->
+            <fieldset class="form-section">
+                <legend class="sr-only">Section 3: Experience and Availability</legend>
+                <div class="section-header">
+                    <span class="section-number">3</span>
+                    <h2 class="section-title">Experience & Availability</h2>
+                </div>
+
+                <div class="form-group">
+                    <p class="form-label" id="experience-label">
+                        <span class="question-number">6.</span>
+                        Do you have experience in communications or media?
+                    </p>
+                    <div class="radio-group" role="radiogroup" aria-labelledby="experience-label">
+                        <label class="radio-item">
+                            <input type="radio" name="experience" value="yes" required>
+                            <span class="radio-label">Yes</span>
+                        </label>
+                        <label class="radio-item">
+                            <input type="radio" name="experience" value="some">
+                            <span class="radio-label">Some</span>
+                        </label>
+                        <label class="radio-item">
+                            <input type="radio" name="experience" value="no">
+                            <span class="radio-label">No</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <p class="form-label" id="time-label">
+                        <span class="question-number">7.</span>
+                        How much time can you volunteer?
+                    </p>
+                    <div class="radio-group" role="radiogroup" aria-labelledby="time-label">
+                        <label class="radio-item">
+                            <input type="radio" name="time_available" value="1-2_hours">
+                            <span class="radio-label">1–2 hours per week</span>
+                        </label>
+                        <label class="radio-item">
+                            <input type="radio" name="time_available" value="3-5_hours">
+                            <span class="radio-label">3–5 hours per week</span>
+                        </label>
+                        <label class="radio-item">
+                            <input type="radio" name="time_available" value="project_based">
+                            <span class="radio-label">Project-based</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <p class="form-label" id="format-label">
+                        <span class="question-number">8.</span>
+                        Preferred volunteer format
+                    </p>
+                    <div class="radio-group" role="radiogroup" aria-labelledby="format-label">
+                        <label class="radio-item">
+                            <input type="radio" name="volunteer_format" value="remote">
+                            <span class="radio-label">Remote</span>
+                        </label>
+                        <label class="radio-item">
+                            <input type="radio" name="volunteer_format" value="in_person">
+                            <span class="radio-label">In-person</span>
+                        </label>
+                        <label class="radio-item">
+                            <input type="radio" name="volunteer_format" value="hybrid">
+                            <span class="radio-label">Hybrid</span>
+                        </label>
+                    </div>
+                </div>
+            </fieldset>
+
+            <!-- Section 4: Final Questions -->
+            <fieldset class="form-section">
+                <legend class="sr-only">Section 4: Final Questions</legend>
+                <div class="section-header">
+                    <span class="section-number">4</span>
+                    <h2 class="section-title">Final Questions</h2>
+                </div>
+
+                <div class="form-group">
+                    <label for="motivation" class="form-label">
+                        <span class="question-number">9.</span>
+                        Why do you want to volunteer with the Alabama NAACP?
+                    </label>
+                    <textarea 
+                        id="motivation" 
+                        name="motivation" 
+                        class="form-input form-textarea" 
+                        placeholder="Share your thoughts..."
+                        rows="5"
+                    ></textarea>
+                </div>
+            </fieldset>
+
+            <!-- Submit Section -->
+            <div class="submit-section">
+                <button type="submit" class="submit-button">
+                    Submit Application
+                </button>
+                <p class="privacy-note">
+                    Your information will only be used to contact you about volunteer opportunities.
+                </p>
+            </div>
+        </form>
+
+        <!-- Footer -->
+        <footer class="form-footer">
+            <p>Thank you for your interest in supporting the Alabama NAACP.</p>
+            <p>Questions? Contact us at <a href="mailto:communications@alnaacp.org">communications@alnaacp.org</a></p>
+        </footer>
+    </main>
+</body>
+</html>
