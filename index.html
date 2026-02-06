@@ -682,5 +682,78 @@
             <p>Questions? Contact us at <a href="mailto:communications@alnaacp.org">communications@alnaacp.org</a></p>
         </footer>
     </main>
+
+
+
+<!-- Supabase JS (CDN) -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+  // ✅ Paste YOUR values here (Project Settings → Data API and API Keys)
+  const SUPABASE_URL = "https://bvdxslyzkfbpuplutetn.supabase.co";
+  const SUPABASE_ANON_KEY = "sb_publishable_7isLdzHntP0aB_PVTSDuzw_jezKZ3HF"; // starts with sb_publishable_
+
+  const { createClient } = supabase;
+  const db = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+  const form = document.querySelector("form.form-card");
+  const submitBtn = form.querySelector('button[type="submit"]');
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    // Collect checkbox values
+    const interests = Array.from(
+      form.querySelectorAll('input[name="interests"]:checked')
+    ).map((i) => i.value);
+
+    // Collect radio values
+    const experience = form.querySelector('input[name="experience"]:checked')?.value || null;
+    const time_available = form.querySelector('input[name="time_available"]:checked')?.value || null;
+    const volunteer_format = form.querySelector('input[name="volunteer_format"]:checked')?.value || null;
+
+    const payload = {
+      full_name: form.full_name.value.trim(),
+      email: form.email.value.trim(),
+      phone: form.phone.value.trim() || null,
+      city_county: form.city_county.value.trim() || null,
+      interests,
+      interest_other_text: form.interest_other_text.value.trim() || null,
+      experience,
+      time_available,
+      volunteer_format,
+      motivation: form.motivation.value.trim() || null
+    };
+
+    // UX: disable submit button while sending
+    const prevText = submitBtn.textContent;
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Submitting...";
+
+    try {
+      const { error } = await db
+        .from("volunteer_interest_submissions")
+        .insert([payload]);
+
+      if (error) {
+        console.error("Supabase insert error:", error);
+        alert("Submission failed. Open DevTools Console for details.");
+        return;
+      }
+
+      alert("Submitted successfully!");
+      form.reset();
+    } catch (err) {
+      console.error("Network/runtime error:", err);
+      alert("Network error. Please try again.");
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.textContent = prevText;
+    }
+  });
+</script>
+
+
+
 </body>
 </html>
