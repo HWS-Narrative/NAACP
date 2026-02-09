@@ -483,11 +483,11 @@
                         autocomplete="tel"
                     >
                 </div>
-
+<!--
                 <div class="form-group">
-                    <label for="city-county" class="form-label">
+                    <label for="city-county" class="form-label"> -keep "city-county" schema so i don't have to change supabase
                         <span class="question-number">4.</span>
-                        City/County in Alabama
+                        County in Alabama
                         <span class="required-indicator" aria-hidden="true">*</span>
                     </label>
                     <input 
@@ -500,6 +500,108 @@
                         aria-required="true"
                     >
                 </div>
+-->
+
+            <div class="form-group">
+            <label for="county" class="form-label">
+                <span class="question-number">4.</span>
+                County in Alabama
+                <span class="required-indicator" aria-hidden="true">*</span>
+            </label>
+
+            <!-- County dropdown (preferred) -->
+            <select
+                id="county"
+                name="city_county"
+                class="form-input"
+                required
+                aria-required="true"
+            >
+                <option value="" selected disabled>Select your county</option>
+
+                <option value="Autauga County">Autauga County</option>
+                <option value="Baldwin County">Baldwin County</option>
+                <option value="Barbour County">Barbour County</option>
+                <option value="Bibb County">Bibb County</option>
+                <option value="Blount County">Blount County</option>
+                <option value="Bullock County">Bullock County</option>
+                <option value="Butler County">Butler County</option>
+                <option value="Calhoun County">Calhoun County</option>
+                <option value="Chambers County">Chambers County</option>
+                <option value="Cherokee County">Cherokee County</option>
+                <option value="Chilton County">Chilton County</option>
+                <option value="Choctaw County">Choctaw County</option>
+                <option value="Clarke County">Clarke County</option>
+                <option value="Clay County">Clay County</option>
+                <option value="Cleburne County">Cleburne County</option>
+                <option value="Coffee County">Coffee County</option>
+                <option value="Colbert County">Colbert County</option>
+                <option value="Conecuh County">Conecuh County</option>
+                <option value="Coosa County">Coosa County</option>
+                <option value="Covington County">Covington County</option>
+                <option value="Crenshaw County">Crenshaw County</option>
+                <option value="Cullman County">Cullman County</option>
+                <option value="Dale County">Dale County</option>
+                <option value="Dallas County">Dallas County</option>
+                <option value="DeKalb County">DeKalb County</option>
+                <option value="Elmore County">Elmore County</option>
+                <option value="Escambia County">Escambia County</option>
+                <option value="Etowah County">Etowah County</option>
+                <option value="Fayette County">Fayette County</option>
+                <option value="Franklin County">Franklin County</option>
+                <option value="Geneva County">Geneva County</option>
+                <option value="Greene County">Greene County</option>
+                <option value="Hale County">Hale County</option>
+                <option value="Henry County">Henry County</option>
+                <option value="Houston County">Houston County</option>
+                <option value="Jackson County">Jackson County</option>
+                <option value="Jefferson County">Jefferson County</option>
+                <option value="Lamar County">Lamar County</option>
+                <option value="Lauderdale County">Lauderdale County</option>
+                <option value="Lawrence County">Lawrence County</option>
+                <option value="Lee County">Lee County</option>
+                <option value="Limestone County">Limestone County</option>
+                <option value="Lowndes County">Lowndes County</option>
+                <option value="Macon County">Macon County</option>
+                <option value="Madison County">Madison County</option>
+                <option value="Marengo County">Marengo County</option>
+                <option value="Marion County">Marion County</option>
+                <option value="Marshall County">Marshall County</option>
+                <option value="Mobile County">Mobile County</option>
+                <option value="Monroe County">Monroe County</option>
+                <option value="Montgomery County">Montgomery County</option>
+                <option value="Morgan County">Morgan County</option>
+                <option value="Perry County">Perry County</option>
+                <option value="Pickens County">Pickens County</option>
+                <option value="Pike County">Pike County</option>
+                <option value="Randolph County">Randolph County</option>
+                <option value="Russell County">Russell County</option>
+                <option value="St. Clair County">St. Clair County</option>
+                <option value="Shelby County">Shelby County</option>
+                <option value="Sumter County">Sumter County</option>
+                <option value="Talladega County">Talladega County</option>
+                <option value="Tallapoosa County">Tallapoosa County</option>
+                <option value="Tuscaloosa County">Tuscaloosa County</option>
+                <option value="Walker County">Walker County</option>
+                <option value="Washington County">Washington County</option>
+                <option value="Wilcox County">Wilcox County</option>
+                <option value="Winston County">Winston County</option>
+
+                <option value="__other__">Other / Not listed</option>
+            </select>
+
+            <!-- Fallback input (only used if "Other / Not listed" is chosen) -->
+            <div id="county-other-wrapper" style="display:none; margin-top: 0.5rem;">
+                <label for="county-other" class="sr-only">Enter your county</label>
+                <input
+                type="text"
+                id="county-other"
+                class="form-input"
+                placeholder="Type your county"
+                autocomplete="address-level2"
+                >
+            </div>
+            </div>
             </fieldset>
 
             <!-- Section 2: Volunteer Interests -->
@@ -700,6 +802,26 @@
   const form = document.querySelector("form.form-card");
   const submitBtn = form.querySelector('button[type="submit"]');
 
+  // County dropdown + "Other" fallback
+const countySelect = document.querySelector("#county");
+const countyOtherWrapper = document.querySelector("#county-other-wrapper");
+const countyOtherInput = document.querySelector("#county-other");
+
+if (countySelect) {
+  countySelect.addEventListener("change", () => {
+    const isOther = countySelect.value === "__other__";
+    countyOtherWrapper.style.display = isOther ? "block" : "none";
+    if (isOther) {
+      countyOtherInput?.setAttribute("required", "true");
+      countyOtherInput?.focus();
+    } else {
+      countyOtherInput?.removeAttribute("required");
+      if (countyOtherInput) countyOtherInput.value = "";
+    }
+  });
+}
+
+
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
 
@@ -717,7 +839,12 @@
       full_name: form.full_name.value.trim(),
       email: form.email.value.trim(),
       phone: form.phone.value.trim() || null,
-      city_county: form.city_county.value.trim() || null,
+      //city_county: form.city_county.value.trim() || null, replaced with code below
+        city_county:
+        (form.city_county.value === "__other__"
+            ? (countyOtherInput?.value || "").trim()
+            : form.city_county.value.trim()) || null,
+
       interests,
       interest_other_text: form.interest_other_text.value.trim() || null,
       experience,
@@ -744,6 +871,12 @@
 
       alert("Submitted successfully!");
       form.reset();
+
+      // Reset county "Other" UI after form reset
+        if (countyOtherWrapper) countyOtherWrapper.style.display = "none";
+        countyOtherInput?.removeAttribute("required");
+        if (countyOtherInput) countyOtherInput.value = "";
+
     } catch (err) {
       console.error("Network/runtime error:", err);
       alert("Network error. Please try again.");
