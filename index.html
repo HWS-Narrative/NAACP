@@ -423,7 +423,7 @@
         </header>
 
         <!-- Form -->
-        <form class="form-card" action="#" method="POST" novalidate>
+        <form class="form-card" action="#" method="POST"> <!-- removed novalidate -->
             
             <!-- Section 1: Contact Info -->
             <fieldset class="form-section">
@@ -474,6 +474,8 @@
                         <span class="question-number">3.</span>
                         Phone Number
                     </label>
+
+                    <!-- replaced this code 
                     <input 
                         type="tel" 
                         id="phone" 
@@ -481,6 +483,21 @@
                         class="form-input" 
                         placeholder="(555) 123-4567"
                         autocomplete="tel"
+                    >
+                    -->
+
+                    <input 
+                    type="tel" 
+                    id="phone" 
+                    name="phone" 
+                    class="form-input" 
+                    placeholder="(555) 123-4567"
+                    autocomplete="tel"
+                    required
+                    aria-required="true"
+                    inputmode="tel"
+                    pattern="(\+1\s*)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}"
+                    title="Enter a valid 10-digit US phone number"
                     >
                 </div>
 <!--
