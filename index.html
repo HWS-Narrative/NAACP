@@ -775,7 +775,13 @@
         <!-- Footer -->
         <footer class="form-footer">
             <p>Thank you for your interest in supporting the Alabama NAACP.</p>
-            <p>Questions? Contact us at <a href="mailto:communications@alnaacp.org">comms@alnaacp.org</a></p>
+            <p>
+            Questions? Contact us at 
+            <a href="mailto:communications@alnaacp.org">comms@alnaacp.org</a> 
+            or call <a href="tel:+17276868251">(727) 686-8251</a>
+            </p>
+
+            <!--<p>Questions? Contact us at <a href="mailto:communications@alnaacp.org">comms@alnaacp.org</a></p>-->
         </footer>
     </main>
 
@@ -795,6 +801,11 @@
 
   const form = document.querySelector("form.form-card");
   const submitBtn = form.querySelector('button[type="submit"]');
+
+  //2.12.26 added event listener to clear phone validation error on input (UX improvement)
+  form.phone.addEventListener("input", () => {
+  form.phone.setCustomValidity("");
+});
 
   // County dropdown + "Other" fallback
 const countySelect = document.querySelector("#county");
@@ -834,47 +845,35 @@ if (countySelect) {
     const time_available = form.querySelector('input[name="time_available"]:checked')?.value || null;
     const volunteer_format = form.querySelector('input[name="volunteer_format"]:checked')?.value || null;
 
-    const payload = {
-      full_name: form.full_name.value.trim(),
-      email: form.email.value.trim(),
-      //phone: form.phone.value.trim() || null,
-      phone: normalizedPhone || null,
-      //city_county: form.city_county.value.trim() || null, replaced with code below
-        city_county:
-        (form.city_county.value === "__other__"
-            ? (countyOtherInput?.value || "").trim()
-            : form.city_county.value.trim()) || null,
+// Phone validation FIRST
+if (normalizedPhone.length !== 10) {
+  form.phone.setCustomValidity("Enter a valid 10-digit US phone number.");
+} else {
+  form.phone.setCustomValidity("");
+}
 
-      interests,
-      interest_other_text: form.interest_other_text.value.trim() || null,
-      experience,
-      time_available,
-      volunteer_format,
-      motivation: form.motivation.value.trim() || null
-    };
+// Gate: Check form validity and exit early if invalid
+if (!form.checkValidity()) {
+  form.reportValidity();
+  return;
+}
 
-    // Phone validation FIRST
-    if (normalizedPhone.length !== 10) {
-    form.phone.setCustomValidity("Enter a valid 10-digit US phone number.");
-    } else {
-    form.phone.setCustomValidity(""); // clear error
-    }
-
-    // Run browser validation (email, required fields, etc.)
-    if (!form.checkValidity()) {
-    form.reportValidity();
-    return;
-    }
-
-    // Optional: email message override (keeps type="email" validation)
-    if (!form.email.checkValidity()) {
-    form.email.setCustomValidity("Enter a valid email address (example: name@email.com).");
-    form.reportValidity();
-    form.email.focus();
-    return;
-    } else {
-    form.email.setCustomValidity("");
-    }
+// Build payload ONLY after validation passes
+const payload = {
+  full_name: form.full_name.value.trim(),
+  email: form.email.value.trim(),
+  phone: normalizedPhone,
+  city_county:
+    (form.city_county.value === "__other__"
+      ? (countyOtherInput?.value || "").trim()
+      : form.city_county.value.trim()) || null,
+  interests,
+  interest_other_text: form.interest_other_text.value.trim() || null,
+  experience,
+  time_available,
+  volunteer_format,
+  motivation: form.motivation.value.trim() || null
+};
 
     // UX: disable submit button while sending
     const prevText = submitBtn.textContent;
