@@ -1,0 +1,11 @@
+{
+  "imports": {
+    "@supabase/functions-js": "jsr:@supabase/functions-js@^2"
+  },
+  "lint": {
+    "rules": {
+      "exclude": ["no-import-prefix", "no-explicit-any"]
+    }
+}
+}
+
