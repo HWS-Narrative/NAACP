@@ -1,3 +1,5 @@
+//see chatgpt Edge Function Debugging and Webhook integration (Deno deprecation in vs code 2/19/2026)
+
 import { serve } from "https://deno.land/std@0.224.0/http/server.ts";
 import { createHash } from "node:crypto";
 
@@ -133,16 +135,28 @@ function isVolunteerTag(name: string): boolean {
   );
 }
 
+
 serve(async (req) => {
   if (req.method !== "POST") {
     return json({ error: "Method not allowed" }, 405);
   }
 
-  const expected = Deno.env.get("SUPABASE_WEBHOOK_SECRET") || "";
+  /*const expected = Deno.env.get("SUPABASE_WEBHOOK_SECRET") || "";
   const provided = req.headers.get("x-webhook-secret") || "";
 
   if (expected && provided !== expected) {
     return json({ error: "Unauthorized" }, 401);
+  }*/
+
+  const expected = Deno.env.get("WEBHOOK_SECRET") || "";
+  const authHeader = req.headers.get("Authorization") || "";
+
+  const token = authHeader.startsWith("Bearer ")
+  ? authHeader.substring(7)
+  : "";
+
+  if (expected && token !== expected) {
+  return json({ error: "Unauthorized" }, 401);
   }
 
   const body = await req.json().catch(() => null);
