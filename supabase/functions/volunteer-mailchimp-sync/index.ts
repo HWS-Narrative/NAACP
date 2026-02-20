@@ -141,21 +141,10 @@ serve(async (req) => {
     return json({ error: "Method not allowed" }, 405);
   }
 
-  /*const expected = Deno.env.get("SUPABASE_WEBHOOK_SECRET") || "";
-  const provided = req.headers.get("x-webhook-secret") || "";
+  const expected = (Deno.env.get("WEBHOOK_SECRET") ?? "").trim();
+  const got = (req.headers.get("x-webhook-secret") ?? "").trim();
 
-  if (expected && provided !== expected) {
-    return json({ error: "Unauthorized" }, 401);
-  }*/
-
-  const expected = Deno.env.get("WEBHOOK_SECRET") || "";
-  const authHeader = req.headers.get("Authorization") || "";
-
-  const token = authHeader.startsWith("Bearer ")
-  ? authHeader.substring(7)
-  : "";
-
-  if (expected && token !== expected) {
+  if (!expected || got !== expected) {
   return json({ error: "Unauthorized" }, 401);
   }
 
@@ -168,7 +157,7 @@ serve(async (req) => {
   }
 
   const email = record.email.trim().toLowerCase();
-  //const subscriberHash = await md5Hex(email);
+  
   const subscriberHash =  md5Hex(email);
 
   const listId = Deno.env.get("MAILCHIMP_AUDIENCE_ID");
@@ -187,21 +176,42 @@ serve(async (req) => {
     record.time_available ||
     "";
 
+    const experienceMap: Record<string, string> = {
+      yes: "Yes",
+      some: "Some",
+      no: "No",
+    };
+
+    const mappedExperience =
+      (record.experience &&
+        experienceMap[String(record.experience).toLowerCase()]) ||
+      "";
+
+    const formatMap: Record<string, string> = {
+      remote: "Remote",
+      in_person: "In-person",
+      hybrid: "Hybrid",
+    };
+
+    const mappedFormat =
+      (record.volunteer_format &&
+        formatMap[String(record.volunteer_format).toLowerCase()]) ||
+      "";
+
   // 1️⃣ Upsert member (overwrite merge fields)
   await mailchimpFetch(`/lists/${listId}/members/${subscriberHash}`, {
     method: "PUT",
     body: JSON.stringify({
       email_address: email,
       status_if_new: "subscribed",
-      status: "subscribed",
+      //status: "subscribed",
       merge_fields: {
         FULLNAME: record.full_name ?? "",
         PHONE: record.phone ?? "",
         COUNTY: record.city_county ?? "",
-        EXPERIENCE: record.experience ?? "",
+        EXPERIENCE: mappedExperience,
         TIMEAVL: mappedTime,
-        //TIMEAVL: record.time_available ?? "",
-        VOLFORMAT: record.volunteer_format ?? "",
+        VOLFORMAT: mappedFormat,
         MOTIVATION: record.motivation ?? "",
         INTOTHER: record.interest_other_text ?? "",
       },
