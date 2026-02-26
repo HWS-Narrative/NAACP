@@ -2,7 +2,6 @@
 
 import { serve } from "https://deno.land/std@0.224.0/http/server.ts";
 import { createHash } from "node:crypto";
-import { createClient } from "https://esm.sh/@supabase/supabase-js@2"; //added for committee 2/26/2024
 
 
 type VolunteerRecord = {
@@ -132,21 +131,12 @@ function isVolunteerTag(name: string): boolean {
     name.startsWith("experience-") ||
     name.startsWith("availability-") ||
     name.startsWith("format-") ||
-    name.startsWith("county-") ||
-    name.startsWith("committee-") //added for committee 2/26/2026
+    name.startsWith("county-")
   );
 }
 
 
 serve(async (req) => {
-
-//added 2/26/2026 for committee (lines 143-146)
-const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
-const supabaseServiceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
-
-const supabase = createClient(supabaseUrl, supabaseServiceKey);
-
-
   if (req.method !== "POST") {
     return json({ error: "Method not allowed" }, 405);
   }
@@ -162,32 +152,6 @@ const supabase = createClient(supabaseUrl, supabaseServiceKey);
   if (!body) return json({ error: "Invalid JSON" }, 400);
 
   const record: VolunteerRecord = body.record || body.new || body;
-//added 2/26/2026 for committee (lines 164-187)
-// 🔹 Fetch committee selections from join table
-const submissionId = body.record?.id || body.new?.id;
-
-let committeeTags: string[] = [];
-
-if (submissionId) {
-  const { data: committeeRows, error: committeeError } =
-    await supabase
-      .from("volunteer_submission_committees")
-      .select(`
-        committee:committees (
-          slug,
-          name
-        )
-      `)
-      .eq("submission_id", submissionId);
-
-  if (!committeeError && committeeRows) {
-    committeeTags = committeeRows.map((row: any) =>
-      `committee-${slugify(row.committee.slug)}`
-    );
-  }
-}
-
-
   if (!record?.email) {
     return json({ error: "Missing email" }, 400);
   }
@@ -240,7 +204,7 @@ if (submissionId) {
     body: JSON.stringify({
       email_address: email,
       status_if_new: "subscribed",
-      //status: "subscribed",
+      status: "subscribed",
       merge_fields: {
         FULLNAME: record.full_name ?? "",
         PHONE: record.phone ?? "",
@@ -250,7 +214,7 @@ if (submissionId) {
         VOLFORMAT: mappedFormat,
         MOTIVATION: record.motivation ?? "",
         INTOTHER: record.interest_other_text ?? "",
-       },
+      },
     }),
   });
 
@@ -270,26 +234,10 @@ if (submissionId) {
       status: "inactive",
     }));
 
-    /*replace this block with code below for committee 2/26/2026
   const newest = buildVolunteerTags(record).map((name) => ({
     name,
     status: "active",
-  }));*/
-
-  // Build base volunteer tags (role, county, interest, etc.)
-const baseTags: string[] = buildVolunteerTags(record);
-
-// Combine base volunteer tags with committee tags
-const combinedTags: string[] = [
-  ...baseTags,
-  ...committeeTags,
-];
-
-// Convert all tags into Mailchimp activation format
-const newest = combinedTags.map((tagName: string) => ({
-  name: tagName,
-  status: "active",
-}));
+  }));
 
   await mailchimpFetch(
     `/lists/${listId}/members/${subscriberHash}/tags`,
