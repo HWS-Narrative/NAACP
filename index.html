@@ -607,69 +607,10 @@
                     <h2 class="section-title">Volunteer Interests</h2>
                 </div>
 
-                <div class="form-group">
-                    <p class="form-label" id="interests-label">
-                        <span class="question-number">5.</span>
-                        What communications support are you interested in?
-                        <span style="display: block; font-weight: 400; font-size: 0.875rem; color: var(--color-text-muted); margin-top: 4px;">
-                            Select all that apply
-                        </span>
-                    </p>
-                    <div class="checkbox-group" role="group" aria-labelledby="interests-label">
-                        <label class="checkbox-item">
-                            <input type="checkbox" name="interests" value="social_media">
-                            <span class="checkbox-label">Social media</span>
-                        </label>
-                        <label class="checkbox-item">
-                            <input type="checkbox" name="interests" value="graphic_design">
-                            <span class="checkbox-label">Graphic design</span>
-                        </label>
-                        <label class="checkbox-item">
-                            <input type="checkbox" name="interests" value="writing">
-                            <span class="checkbox-label">Writing / content creation</span>
-                        </label>
-                        <label class="checkbox-item">
-                            <input type="checkbox" name="interests" value="photo_video">
-                            <span class="checkbox-label">Photography / video</span>
-                        </label>
-                        <label class="checkbox-item">
-                            <input type="checkbox" name="interests" value="email_text">
-                            <span class="checkbox-label">Email or text campaigns</span>
-                        </label>
-                        <label class="checkbox-item">
-                            <input type="checkbox" name="interests" value="event_promotion">
-                            <span class="checkbox-label">Event promotion</span>
-                        </label>
-                        <label class="checkbox-item">
-                            <input type="checkbox" name="interests" value="media_press">
-                            <span class="checkbox-label">Media / press support</span>
-                        </label>
-                        <label class="checkbox-item">
-                            <input type="checkbox" name="interests" value="general_support">
-                            <span class="checkbox-label">General communications support</span>
-                        </label>
-                        <label class="checkbox-item">
-                            <input type="checkbox" name="interests" value="other" id="interest-other-checkbox">
-                            <span class="checkbox-label">Other</span>
-                        </label>
-                    </div>
-                    <div class="other-input-wrapper">
-                        <label for="interest-other-text" class="sr-only">Please specify other interest</label>
-                        <input 
-                            type="text" 
-                            id="interest-other-text" 
-                            name="interest_other_text" 
-                            class="form-input other-input" 
-                            placeholder="Please specify"
-                            aria-describedby="interest-other-checkbox"
-                        >
-                    </div>
-                </div>
-
                 <!-- Committees (dynamic, database-driven) -->
                 <div class="form-group">
                     <p class="form-label" id="committees-label">
-                        <span class="question-number">5a.</span>
+                        <span class="question-number">5.</span>
                         Which committees are you interested in joining?
                         <span style="display: block; font-weight: 400; font-size: 0.875rem; color: var(--color-text-muted); margin-top: 4px;">
                             Select all that apply
@@ -796,9 +737,9 @@
             Questions? Contact us at 
             <a href="mailto:communications@alnaacp.org">comms@alnaacp.org</a> 
             or call <a href="tel:+17276868251">(727) 686-8251</a>
+            <a href="https://alnaacp.org/donate" target="_blank" rel="noopener noreferrer">
+            Click here to donate to Alabama NAACP </a>
             </p>
-
-            <!--<p>Questions? Contact us at <a href="mailto:communications@alnaacp.org">comms@alnaacp.org</a></p>-->
         </footer>
     </main>
 
@@ -912,10 +853,10 @@ if (countySelect) {
     const rawPhone = form.phone.value.trim();
     const normalizedPhone = rawPhone.replace(/\D/g, ""); // remove non-digits
 
-    // Collect checkbox values
-    const interests = Array.from(
-      form.querySelectorAll('input[name="interests"]:checked')
-    ).map((i) => i.value);
+
+    // Q5 removed (communications interests). Keep defaults so RPC / downstream code does not break.
+    const interests = [];
+    const interest_other_text = null;
 
     // Collect committees (dynamic)
     const committee_ids = Array.from(
@@ -950,7 +891,7 @@ const payload = {
       ? (countyOtherInput?.value || "").trim()
       : form.city_county.value.trim()) || null,
   interests,
-  interest_other_text: form.interest_other_text.value.trim() || null,
+  interest_other_text, //: form.interest_other_text.value.trim() || null,
   experience,
   time_available,
   volunteer_format,

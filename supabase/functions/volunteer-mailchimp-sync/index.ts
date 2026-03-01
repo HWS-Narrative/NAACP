@@ -41,23 +41,6 @@ function slugify(s: string) {
     .replace(/^-|-$/g, "");
 }
 
-function q5InterestToTag(label: string) {
-  const key = slugify(label);
-
-  const map: Record<string, string> = {
-    "social-media": "interest-social-media",
-    "graphic-design": "interest-graphic-design",
-    "writing-content-creation": "interest-writing-content",
-    "photography-video": "interest-photography-video",
-    "email-or-text-campaigns": "interest-email-text-campaigns",
-    "event-promotion": "interest-event-promotion",
-    "media-press-support": "interest-media-press",
-    "general-communications-support": "interest-general-communications",
-    "other": "interest-other",
-  };
-
-  return map[key] || `interest-${key}`;
-}
 
 async function mailchimpFetch(path: string, init: RequestInit) {
   const dc = Deno.env.get("MAILCHIMP_DC");
@@ -106,9 +89,6 @@ function buildVolunteerTags(record: VolunteerRecord): string[] {
     tags.push(`county-${slugify(record.city_county)}`);
   }
 
-  for (const interest of record.interests || []) {
-    tags.push(q5InterestToTag(interest));
-  }
 
   if (record.experience?.trim()) {
     tags.push(`experience-${slugify(record.experience)}`);
@@ -240,7 +220,6 @@ if (submissionId) {
     body: JSON.stringify({
       email_address: email,
       status_if_new: "subscribed",
-      //status: "subscribed",
       merge_fields: {
         FULLNAME: record.full_name ?? "",
         PHONE: record.phone ?? "",
@@ -249,7 +228,7 @@ if (submissionId) {
         TIMEAVL: mappedTime,
         VOLFORMAT: mappedFormat,
         MOTIVATION: record.motivation ?? "",
-        INTOTHER: record.interest_other_text ?? "",
+        INTOTHER: "", 
        },
     }),
   });
@@ -269,12 +248,6 @@ if (submissionId) {
       name,
       status: "inactive",
     }));
-
-    /*replace this block with code below for committee 2/26/2026
-  const newest = buildVolunteerTags(record).map((name) => ({
-    name,
-    status: "active",
-  }));*/
 
   // Build base volunteer tags (role, county, interest, etc.)
 const baseTags: string[] = buildVolunteerTags(record);
