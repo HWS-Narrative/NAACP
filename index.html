@@ -114,6 +114,36 @@
             margin: 0 auto;
         }
 
+        /* Logo wrapper */
+        .logo-wrap {
+        text-align: center;
+        margin-bottom: var(--spacing-md);
+        }
+
+        /* Responsive, height-constrained logo (keeps aspect ratio) */
+        .form-logo {
+        max-height: 120px;   /* primary cap for most screens */
+        max-width: 90%;      /* prevents overflow on very small screens */
+        height: auto;
+        width: auto;
+        display: inline-block;
+        object-fit: contain;
+        }
+
+        /* Slightly larger on wide screens */
+        @media (min-width: 900px) {
+        .form-logo {
+            max-height: 160px;
+        }
+        }
+
+        /* Smaller on phones */
+        @media (max-width: 480px) {
+        .form-logo {
+            max-height: 88px;
+        }
+        }
+
         /* Form Card */
         .form-card {
             background: var(--color-surface);
@@ -414,11 +444,19 @@
     <main class="page-wrapper">
         <!-- Header -->
         <header class="form-header">
-            <span class="org-badge">Alabama NAACP</span>
-            <h1 class="form-title">Communications Volunteer Interest Form</h1>
+            <div class="logo-wrap">
+            <img
+                src="/assets/logo_transparent.png"
+                srcset="/assets/logo@2x.png 2x"
+                alt="Alabama NAACP logo"
+                class="form-logo"
+            >
+            </div>
+            <!--<span class="org-badge">Alabama NAACP</span>-->
+            <h1 class="form-title">Alabama State Conference NAACP Volunteer Sign Up Form</h1>
             <p class="form-intro">
-                Hi Alabama NAACP Family! Interested in helping amplify the work of the Alabama NAACP? 
-                Complete this short form and our communications team will be in touch.
+                Welcome to the Alabama NAACP Family! Interested in helping amplify the work of the Alabama NAACP? 
+                Complete this short form and we will be in touch.
             </p>
         </header>
 
