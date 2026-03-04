@@ -1,3 +1,11 @@
 {
-    "deno.enable": true
+  "deno.enable": true,
+  "deno.lint": true,
+  "deno.unstable": [],
+  "deno.enablePaths": ["./supabase/functions"],
+  "editor.defaultFormatter": "denoland.vscode-deno",
+  "[typescript]": {
+    "editor.defaultFormatter": "denoland.vscode-deno"
+  },
+  "typescript.disableAutomaticTypeAcquisition": true
 }

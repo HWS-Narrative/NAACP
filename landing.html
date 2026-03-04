@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Volunteer - Alabama NAACP</title>
+    <style>
+        :root {
+            --al-crimson: #9E1B32;
+            --naacp-blue: #004685;
+            --white: #ffffff;
+            --text-dark: #222222;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+            background-color: #ffffff;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: var(--text-dark);
+        }
+
+                /* Logo wrapper */
+                .logo-wrap {
+                    text-align: center;
+                    margin-bottom: 0.75rem;
+                }
+
+                /* Responsive, height-constrained logo (keeps aspect ratio) */
+                .site-logo,
+                .form-logo {
+                    max-height: 72px;
+                    max-width: 90%;
+                    height: auto;
+                    width: auto;
+                    display: inline-block;
+                    object-fit: contain;
+                }
+
+                /* Slightly larger on medium/wide screens */
+                @media (min-width: 768px) {
+                    .site-logo,
+                    .form-logo { max-height: 96px; }
+                }
+                @media (min-width: 1200px) {
+                    .site-logo,
+                    .form-logo { max-height: 140px; }
+                }
+
+                /* On very small screens, reduce further so it never overflows */
+                @media (max-width: 480px) {
+                    .site-logo,
+                    .form-logo { max-height: 56px; }
+                }
+
+                /* Center header content */
+                header {
+                        width: 100%;
+                        padding: 40px 20px;
+                        text-align: center;
+                        max-width: 720px;
+                        margin: 0 auto;
+                }
+
+                header h1 {
+                        margin: 0;
+                        font-size: 1.8rem;
+                        font-weight: 800;
+                        text-align: center;
+                }
+
+                header p {
+                        margin: 18px 0 0;
+                        font-size: 1.25rem;
+                        font-weight: 700;
+                        text-align: center;
+                }
+
+        hr {
+            border: 0;
+            border-top: 1px solid #ddd;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+
+        .container {
+            width: 90%;
+            max-width: 720px;
+            margin-top: 40px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .btn-box {
+            display: inline-block;
+            text-decoration: none;
+            color: #ffffff;
+            background: var(--naacp-blue);
+            padding: 12px 18px;
+            border-radius: 8px;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+            transition: transform 0.14s ease, box-shadow 0.14s ease;
+        }
+
+        .btn-box:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 22px rgba(0,0,0,0.12);
+        }
+
+        .button-main {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.05rem;
+            font-weight: 800;
+            color: inherit;
+        }
+
+        .sub-text {
+            display: block;
+            font-style: italic;
+            font-size: 1.0rem;
+            color: #ffffff;
+            margin-top: 8px;
+            text-align: center;
+        }
+
+        .btn-box:active {
+            transform: scale(0.98);
+        }
+
+        /* Styling to mimic the brackets in the image */
+        .bracket {
+            color: #777;
+            font-weight: 300;
+            margin: 0 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <!-- insert at top of the header (before badge/title) -->
+        <div class="logo-wrap">
+        <img
+            src="assets/logo_transparent.png"
+            srcset="assets/logo@2x.png 2x"
+            alt="Alabama NAACP logo"
+            class="site-logo"
+        />
+        </div>
+        <h1>Midterms: November 3, 2026!!!</h1>
+        <p>When We Fight, We WIN!!!</p>
+        <hr>
+    </header>
+
+
+    <div class="container">
+  <a href="/index.html" class="btn-box">
+    <div class="button-main">
+      <span class="bracket">[</span>
+      ✊ Volunteer with Alabama NAACP
+      <span class="bracket">]</span>
+    </div>
+    <span class="sub-text">(Link to NAACP Volunteer/Join Page)</span>
+  </a>
+</div>
+
+</body>
+</html>
