@@ -619,7 +619,7 @@
                 <option value="Wilcox County">Wilcox County</option>
                 <option value="Winston County">Winston County</option>
 
-                <option value="__other__">Other / Not listed</option>
+                <option value="__other__">Not listed – enter city, state (e.g., Chicago, IL)</option>
             </select>
 
             <!-- Fallback input (only used if "Other / Not listed" is chosen) -->
@@ -813,7 +813,7 @@
 
       const { data, error } = await db
         .from("committees")
-        .select("id,name")
+        .select("id,name,description")
         .eq("is_active", true)
         .order("sort_order", { ascending: true })
         .order("name", { ascending: true });
@@ -836,12 +836,26 @@
         input.name = "committee_ids";
         input.value = c.id;
 
-        const span = document.createElement("span");
-        span.className = "checkbox-label";
-        span.textContent = c.name;
+        const textWrap = document.createElement("div");
+        textWrap.style.display = "flex";
+        textWrap.style.flexDirection = "column";
+
+        const nameSpan = document.createElement("span");
+        nameSpan.className = "checkbox-label";
+        nameSpan.textContent = c.name;
+
+        textWrap.appendChild(nameSpan);
+
+        if (c.description && String(c.description).trim()) {
+        const desc = document.createElement("small");
+        desc.textContent = c.description;
+        desc.style.color = "var(--color-text-muted)";
+        desc.style.marginTop = "2px";
+        textWrap.appendChild(desc);
+        }
 
         label.appendChild(input);
-        label.appendChild(span);
+        label.appendChild(textWrap);
         committeesGroup.appendChild(label);
       }
 
