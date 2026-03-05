@@ -119,6 +119,7 @@ function isVolunteerTag(name: string): boolean {
 
 
 serve(async (req) => {
+  console.log("Function invoked Test");  //added to test Edge Function endpoint
 
 //added 2/26/2026 for committee (lines 143-146)
 const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
